@@ -4,48 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escape Room Matemático</title>
-    <!-- Enlace a la hoja de estilos local -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Incluye Tailwind CSS para un diseño moderno y responsivo -->
+    <!-- Incluye Tailwind CSS para el diseño -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Incluye KaTeX para un renderizado de ecuaciones de alta calidad -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" crossorigin="anonymous">
+    
+    <!-- Referencia al archivo CSS para el estilo -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
-
-    <!-- Contenedor principal de la aplicación -->
-    <div id="app-container" class="w-full max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700">
-
-        <!-- Cabecera de la aplicación -->
-        <header class="mb-8 text-center">
-            <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">
-                Escape Room Matemático
-            </h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400">
-                ¡Resuelvan las ecuaciones para escapar!
-            </p>
-        </header>
-
-        <!-- Barra de progreso que se actualizará dinámicamente -->
-        <div id="progress-bar-container" class="mb-8">
-            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%;"></div>
+<body class="font-sans antialiased text-white">
+    <main class="min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-2xl mx-auto p-6 md:p-8 bg-black/40 rounded-xl shadow-2xl border border-white/10 backdrop-blur-md">
+            <!-- Contenedor del juego -->
+            <div id="game-content" class="text-center">
+                <!-- El contenido se cargará aquí dinámicamente con JavaScript -->
             </div>
-            <p id="progress-text" class="mt-2 text-right text-sm text-gray-600 dark:text-gray-400">
-                Pista 0 de 4
-            </p>
+            
+            <!-- Barra de progreso -->
+            <div id="progress-bar-container" class="mt-8 bg-gray-700 rounded-full h-4 overflow-hidden shadow-lg">
+                <div id="progress-bar" class="bg-indigo-500 h-full transition-all duration-500 ease-in-out" style="width: 0%;"></div>
+            </div>
+            <p id="progress-text" class="text-center text-sm mt-2 font-mono text-gray-300"></p>
         </div>
+    </main>
 
-        <!-- Contenedor principal del juego, se llenará con los puzzles o la pantalla de victoria -->
-        <div id="game-content">
-            <!-- El contenido se generará aquí con JavaScript -->
-        </div>
-
-    </div>
-
-    <!-- Enlace al archivo JavaScript -->
+    <!-- Referencia al archivo JavaScript con la lógica del juego -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
     <script src="app.js"></script>
 </body>
 </html>

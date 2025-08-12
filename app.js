@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     // --- Estructura del Juego y Puzzles ---
-    // Este arreglo contiene toda la información de los puzzles del juego:
-    // - title: Título del desafío.
-    // - description: Narrativa que contextualiza el desafío.
-    // - question: La pregunta o ecuación matemática a resolver.
-    // - solution: Las respuestas correctas en un array.
-    // - hint: Una pista para guiar al jugador.
     const puzzles = [
         {
             title: "La Carta Anónima",
@@ -55,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "El Tesoro Escondido",
             description: "Encuentras el reloj de arena. Una placa indica la ubicación del tesoro, pero está encriptada. La clave para abrir el cofre es la suma del número de página y el número de párrafo que encontraste en el desafío de la biblioteca.",
             question: "Ingresa la contraseña para abrir el cofre del tesoro.",
-            // Esta solución se calculará dinámicamente, pero se deja un valor por defecto.
             solution: ["15"],
             hint: "Regresa al desafío de 'La Nota de la Biblioteca'. Suma el número de página y el número de párrafo que obtuviste como respuesta."
         }
@@ -65,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPuzzleIndex = 0;
     const totalPuzzles = puzzles.length;
     let finalCode = "";
-    // Variable para almacenar los valores del puzzle de la biblioteca
     let pageAndParagraphValues = { page: 10, paragraph: 5 };
 
     // --- Referencias a los elementos del DOM ---
@@ -76,21 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Funciones del Juego ---
 
-    // Función para verificar la solución del usuario.
     const checkSolution = (input, solutions) => {
-        // Normaliza la entrada del usuario para una verificación más flexible.
         const cleanedInput = input.replace(/\s/g, '').toLowerCase();
-        // Compara la entrada con todas las posibles soluciones.
         return solutions.some(sol => sol.toLowerCase() === cleanedInput);
     };
 
-    // Función principal para renderizar un puzzle en la pantalla.
     const renderPuzzle = () => {
         const puzzle = puzzles[currentPuzzleIndex];
         gameContent.innerHTML = `
-            <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100">${puzzle.title}</h3>
-            <p class="mb-4 text-gray-700 dark:text-gray-300">${puzzle.description}</p>
-            <div id="question-container" class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4 text-center text-xl font-mono">
+            <h3 class="text-xl font-bold mb-2 text-white">${puzzle.title}</h3>
+            <p class="mb-4 text-gray-200">${puzzle.description}</p>
+            <div id="question-container" class="bg-black/40 p-4 rounded-lg mb-4 text-center text-xl font-mono text-white">
                 ${puzzle.question}
             </div>
             <form id="puzzle-form" class="flex flex-col space-y-4">
@@ -109,13 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
             </form>
             <p id="feedback" class="mt-2 text-center text-sm font-semibold"></p>
-            <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+            <p class="mt-4 text-sm text-gray-300">
                 <span class="font-bold">Pista:</span> ${puzzle.hint}
             </p>
         `;
 
-        // Renderizar las ecuaciones matemáticas después de cargar el HTML.
-        // Se usa KaTeX para mostrar las ecuaciones de forma legible.
         renderMathInElement(document.getElementById("question-container"), {
             delimiters: [
                 {left: "$$", right: "$$", display: true},
@@ -124,20 +109,19 @@ document.addEventListener("DOMContentLoaded", () => {
             throwOnError: false
         });
 
-        // Añadir el listener para el formulario.
         document.getElementById("puzzle-form").addEventListener("submit", handleSubmit);
         updateProgressBar();
     };
 
-    // Función para renderizar la pantalla de victoria.
     const renderWinScreen = () => {
         progressBarContainer.style.display = 'none';
         finalCode = pageAndParagraphValues.page + pageAndParagraphValues.paragraph;
+        
         gameContent.innerHTML = `
-            <div class="text-center p-6 bg-green-50 dark:bg-green-900 rounded-lg shadow-inner">
-                <h2 class="text-3xl font-bold text-green-700 dark:text-green-300 mb-4">¡Felicitaciones! ¡Has escapado!</h2>
-                <p class="text-lg text-gray-700 dark:text-gray-200 mb-4">Has resuelto todos los enigmas y encontrado la clave final. La clave es:</p>
-                <div class="bg-white dark:bg-gray-800 text-3xl font-bold tracking-widest p-4 rounded-lg text-indigo-600 dark:text-indigo-400">
+            <div class="text-center p-6 bg-green-50/20 rounded-lg shadow-inner backdrop-blur-sm">
+                <h2 class="text-3xl font-bold text-green-300 mb-4">¡Felicitaciones! ¡Has escapado!</h2>
+                <p class="text-lg text-gray-100 mb-4">Has resuelto todos los enigmas y encontrado la clave final. La clave es:</p>
+                <div class="bg-white/20 text-3xl font-bold tracking-widest p-4 rounded-lg text-indigo-400">
                     ${finalCode}
                 </div>
                 <button
@@ -150,8 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         document.getElementById("reset-button").addEventListener("click", resetGame);
     };
-
-    // Función para manejar el envío del formulario.
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         const inputValue = document.getElementById("answer-input").value;
@@ -162,9 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (isCorrect) {
             feedbackElement.textContent = "¡Correcto! Pista desbloqueada.";
-            feedbackElement.className = "mt-2 text-center text-sm font-semibold text-green-600";
+            feedbackElement.className = "mt-2 text-center text-sm font-semibold text-green-400";
             
-            // Si el puzzle 3 es correcto, guarda los valores para el desafío final.
             if (currentPuzzleIndex === 2) {
                 const [paragraph, page] = inputValue.split(',').map(Number);
                 pageAndParagraphValues = { paragraph, page };
@@ -180,24 +162,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 1000);
         } else {
             feedbackElement.textContent = "Inténtalo de nuevo. Revisa la pista y el formato.";
-            feedbackElement.className = "mt-2 text-center text-sm font-semibold text-red-600";
+            feedbackElement.className = "mt-2 text-center text-sm font-semibold text-red-400";
         }
     };
 
-    // Función para actualizar la barra de progreso.
     const updateProgressBar = () => {
         const progress = ((currentPuzzleIndex + 1) / totalPuzzles) * 100;
         progressBar.style.width = `${progress}%`;
         progressText.textContent = `Pista ${currentPuzzleIndex + 1} de ${totalPuzzles}`;
     };
 
-    // Función para reiniciar el juego.
     const resetGame = () => {
         currentPuzzleIndex = 0;
         progressBarContainer.style.display = 'block';
         renderPuzzle();
     };
 
-    // Iniciar el juego.
     renderPuzzle();
 });
