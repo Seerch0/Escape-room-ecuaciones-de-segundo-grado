@@ -1,32 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Arreglo de puzzles con preguntas, descripciones, soluciones y pistas.
+    // Arreglo de puzzles con preguntas, descripciones, soluciones y pistas actualizadas.
     const puzzles = [
         {
             title: "El Candado de la Biblioteca",
-            description: "Para entrar a la biblioteca y encontrar la primera pista, debes abrir un candado. La clave es la solución positiva de la siguiente ecuación:",
-            question: "$$x^2 - 49 = 0$$",
-            solution: [7],
-            hint: "Despeja x y recuerda que la raíz cuadrada tiene una solución positiva y una negativa. ¡Solo necesitas la positiva!"
+            description: "Para entrar a la biblioteca y encontrar la primera pista, debes abrir un candado. La clave es una secuencia de tres números: las dos soluciones de la ecuación, ordenadas de menor a mayor, seguidas de su suma. Ingresa los números separados por comas.",
+            question: "$$x^2 - 9 = 0$$",
+            solution: ["-3,0,3"], // Soluciones son -3 y 3, la suma es 0. Ordenadas de menor a mayor.
+            hint: "Despeja $x$ para encontrar las dos soluciones. El código del candado se forma con la solución negativa, la suma de ambas, y la solución positiva, en ese orden."
         },
         {
             title: "El Enigma del Mapa",
-            description: "Una vez dentro, encuentras un mapa enrollado. Para desenrollarlo, necesitas resolver esta ecuación para encontrar la longitud del pergamino:",
-            question: "$$(2x - 4)^2 = 64$$",
-            solution: [-2, 6],
-            hint: "Saca la raíz cuadrada a ambos lados, pero no olvides que hay dos posibles resultados para la raíz. Luego despeja x en cada caso."
+            description: "Una vez dentro, encuentras un mapa. Para saber en qué coordenada está la siguiente pista, debes resolver la siguiente ecuación. La coordenada es $(x, y)$, donde $x$ es la solución más pequeña y $y$ es la más grande.",
+            question: "$$x^2 - 4x - 12 = 0$$",
+            solution: ["(-2,6)"], // Soluciones son -2 y 6. El formato de respuesta es (x,y).
+            hint: "Usa la fórmula general o factorización para encontrar las dos soluciones. Asegúrate de ordenar los valores de menor a mayor para obtener la coordenada correcta."
         },
         {
-            title: "El Código del Reloj",
-            description: "El mapa te lleva a un antiguo reloj que se ha detenido. Para reiniciarlo y activar la siguiente pista, necesitas encontrar la suma de las soluciones de la siguiente ecuación:",
-            question: "$$3x^2 + 9x = 0$$",
-            solution: [-3, 0],
-            hint: "Factoriza el factor común $x$ o $3x$ para encontrar ambas soluciones. La clave es la suma de ambas."
+            title: "El Reloj Antiguo",
+            description: "El mapa te lleva a un antiguo reloj detenido. Para reiniciarlo y saber a qué hora ir al punto de encuentro, necesitas resolver la siguiente ecuación. La hora es la solución positiva más pequeña.",
+            question: "$$x^2 - 10x + 24 = 0$$",
+            solution: [4], // Soluciones son 4 y 6. La más pequeña es 4.
+            hint: "Factoriza la ecuación para encontrar las dos soluciones. Ambas son positivas, ¡pero solo una es la hora correcta!"
         },
         {
             title: "El Baúl del Tesoro",
             description: "La última pista te lleva a un baúl. La clave para abrirlo es el número de la solución de la ecuación que no es 1. ¡Este es el último desafío!",
             question: "$$x^2 - 4x + 3 = 0$$",
-            solution: [1, 3],
+            solution: [3], // Soluciones son 1 y 3. El valor que no es 1 es 3.
             hint: "Usa la fórmula general o factorización para encontrar ambas soluciones. Elige la que no es 1."
         },
     ];
@@ -43,11 +43,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Función para verificar la solución del usuario
     const checkSolution = (input, solutions) => {
-        const parsedInput = parseFloat(input);
-        if (isNaN(parsedInput)) {
-            return false;
+        // Lógica específica para cada tipo de respuesta
+        if (currentPuzzleIndex === 0) {
+            // Puzzle 1: Formato "num,num,num"
+            const cleanedInput = input.replace(/\s/g, ''); // Eliminar espacios en blanco
+            return solutions.includes(cleanedInput);
+        } else if (currentPuzzleIndex === 1) {
+            // Puzzle 2: Formato "(num,num)"
+            const cleanedInput = input.replace(/\s/g, ''); // Eliminar espacios en blanco
+            return solutions.includes(cleanedInput);
+        } else {
+            // Puzzles 3 y 4: Formato de número simple
+            const parsedInput = parseFloat(input);
+            if (isNaN(parsedInput)) {
+                return false;
+            }
+            return solutions.some(sol => Math.abs(sol - parsedInput) < 0.001);
         }
-        return solutions.some(sol => Math.abs(sol - parsedInput) < 0.001);
     };
 
     // Función principal para renderizar un puzzle en la pantalla
@@ -123,30 +135,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentPuzzle = puzzles[currentPuzzleIndex];
         let isCorrect = false;
 
-        // Lógica especial para los acertijos que requieren una respuesta particular (suma, etc.)
-        if (currentPuzzleIndex === 2) { // Puzzle 3: Suma de las soluciones
-            const solutions = currentPuzzle.solution;
-            const sumOfSolutions = solutions.reduce((acc, curr) => acc + curr, 0);
-            if (parseFloat(inputValue) === sumOfSolutions) {
-                isCorrect = true;
-                finalCode += "3";
-            }
-        } else if (currentPuzzleIndex === 3) { // Puzzle 4: Una solución específica
-            const solutions = currentPuzzle.solution;
-            if (checkSolution(inputValue, solutions) && parseFloat(inputValue) !== 1) {
-                isCorrect = true;
-                finalCode += "5";
-            }
-        } else {
-            isCorrect = checkSolution(inputValue, currentPuzzle.solution);
-            if (isCorrect) {
-                // Partes del código final para puzzles 1 y 2
-                if (currentPuzzleIndex === 0) finalCode += "7";
-                if (currentPuzzleIndex === 1) finalCode += "1";
-            }
-        }
+        isCorrect = checkSolution(inputValue, currentPuzzle.solution);
 
         if (isCorrect) {
+            // Lógica para construir el código final
+            if (currentPuzzleIndex === 0) finalCode += "3"; // Puzzle 1: 3ra parte de la clave
+            if (currentPuzzleIndex === 1) finalCode += "6"; // Puzzle 2: 6 de la coordenada (x,y)
+            if (currentPuzzleIndex === 2) finalCode += "4"; // Puzzle 3: 4 de la hora
+            if (currentPuzzleIndex === 3) finalCode += "3"; // Puzzle 4: 3 de la solución no 1
+
             feedbackElement.textContent = "¡Correcto! Pista desbloqueada.";
             feedbackElement.className = "mt-2 text-center text-sm font-semibold text-green-600";
             setTimeout(() => {
@@ -158,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }, 1000);
         } else {
-            feedbackElement.textContent = "Inténtalo de nuevo. Revisa la pista.";
+            feedbackElement.textContent = "Inténtalo de nuevo. Revisa la pista y el formato.";
             feedbackElement.className = "mt-2 text-center text-sm font-semibold text-red-600";
         }
     };
