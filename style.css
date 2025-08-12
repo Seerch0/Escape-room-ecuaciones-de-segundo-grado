@@ -1,9 +1,9 @@
 body {
-    /* Fondo fijo para todo el juego */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1521587765099-8835e72951d1?q=80&w=1770&auto=format&fit=crop');
+    /* Nueva imagen de fondo para un ambiente de misterio */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/misterio.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    background-color: #1a202c; /* Fondo de respaldo */
+    background-color: #1a202c; /* Fondo de respaldo negro */
     transition: none;
 }
