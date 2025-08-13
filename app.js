@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ¿Qué soy?
             </div>
             `,
-            solution: ["el museo"],
+            solution: ["el museo", "museo"],
             hints: [
                 "Piensa en un lugar donde puedes ver cuadros y estatuas.",
                 "Es un lugar donde se exhiben objetos de valor histórico o artístico.",
