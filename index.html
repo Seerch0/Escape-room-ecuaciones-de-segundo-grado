@@ -27,6 +27,24 @@
         </div>
     </main>
 
+    <!-- Modal para las pistas -->
+    <div id="hint-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="relative bg-black/80 text-white rounded-lg p-6 w-full max-w-md shadow-2xl border border-white/20">
+            <h4 class="text-2xl font-bold mb-4 text-center">Pistas</h4>
+            <div id="hint-content" class="space-y-4">
+                <!-- Las pistas se cargarán aquí -->
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <button id="next-hint-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                    Siguiente Pista
+                </button>
+                <button id="close-hint-btn" class="text-gray-400 hover:text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Referencia al archivo JavaScript con la lógica del juego -->
     <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
