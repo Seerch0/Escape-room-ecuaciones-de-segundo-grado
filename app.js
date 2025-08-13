@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             hints: [
                 "Piensa en un lugar donde puedes ver cuadros y estatuas.",
                 "Es un lugar donde se exhiben objetos de valor histórico o artístico.",
-                "La respuesta es 'el museo'."
+                "La respuesta es 'museo'."
             ]
         },
         {
